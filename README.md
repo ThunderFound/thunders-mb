@@ -1,1 +1,1 @@
-# thunders-mb
+# Thunder's Motion Blur
