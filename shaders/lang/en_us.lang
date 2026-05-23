@@ -1,7 +1,7 @@
 option.DITHER_MODE=Dither Mode
 value.DITHER_MODE.0=Off
 value.DITHER_MODE.1=IGN
-value.DITHER_MODE.2=Blue Noise (doesn't work yet)
+value.DITHER_MODE.2=Blue Noise
 
 option.DISABLE_HAND_BLUR=Hand Blur
 value.DISABLE_HAND_BLUR.0=Enabled
