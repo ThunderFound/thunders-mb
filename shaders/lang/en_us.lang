@@ -1,3 +1,6 @@
+option.INFO=Thunders Motion Blur
+value.INFO.0=v1.0
+
 option.DITHER_MODE=Dither Mode
 value.DITHER_MODE.0=Off
 value.DITHER_MODE.1=IGN
