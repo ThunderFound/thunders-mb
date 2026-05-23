@@ -16,13 +16,13 @@ in vec2 texcoord;
 layout(location = 0) out vec4 fragColor;
 
 #define MOTION_BLUR_INTENSITY 1.0 // [0.2 0.5 0.8 1.0 1.5 2.0]
-#define MOTION_BLUR_SAMPLES 12     // [4 8 12 16 20 32]
+#define MOTION_BLUR_SAMPLES 12    // [4 8 12 16 20 32]
 #define BLUR_MAX_VELOCITY 0.05    // [0.01 0.03 0.05 0.10 0.15]
-#define NOISE_AMOUNT 0.5          // [0.0 0.1 0.3 0.5 0.8 1.0]
 #define DISABLE_HAND_BLUR 1       // [0 1]
+#define DITHER_MODE 1             // [0 1 2]
 
-float rand(vec2 co) {
-    return fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453);
+float ign(vec2 p) {
+    return fract(52.9829189 * fract(0.06711056 * p.x + 0.00583715 * p.y));
 }
 
 void main() {
@@ -56,23 +56,28 @@ void main() {
     }
 
     if (length(velocity) > 0.0001) {
-        float dither = (rand(texcoord) - 0.5) * NOISE_AMOUNT;
-
         vec3 blurColor = vec3(0.0);
         float weightSum = 0.0;
-        
+
+        float jitter = 0.0;
+        #if DITHER_MODE == 1
+            jitter = ign(gl_FragCoord.xy);
+        #endif
+
         for (int i = 0; i < MOTION_BLUR_SAMPLES; ++i) {
-            float offset = (float(i) + dither) / float(MOTION_BLUR_SAMPLES - 1) - 0.5;
-            vec2 sampleCoord = texcoord + velocity * offset;
-            
-            if (sampleCoord.x >= 0.0 && sampleCoord.x <= 1.0 && 
-                sampleCoord.y >= 0.0 && sampleCoord.y <= 1.0) {
-                
-                blurColor += texture(colortex0, sampleCoord).rgb;
-                weightSum += 1.0;
-            }
+            float t = (float(i) + jitter) / float(MOTION_BLUR_SAMPLES - 1);
+            float offset = t - 0.5;
+
+            float w = 1.0 - abs(offset) * 2.0;
+            w = max(w, 0.0);
+
+            vec2 sampleCoord = clamp(texcoord + velocity * offset, 0.0, 1.0);
+            vec3 sampleColor = texture(colortex0, sampleCoord).rgb;
+
+            blurColor += sampleColor * w;
+            weightSum += w;
         }
-        
+
         if (weightSum > 0.0) {
             color = blurColor / weightSum;
         }

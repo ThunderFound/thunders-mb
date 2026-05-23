@@ -1,0 +1,14 @@
+option.DITHER_MODE=Dither Mode
+value.DITHER_MODE.0=Off
+value.DITHER_MODE.1=IGN
+value.DITHER_MODE.2=Blue Noise (doesn't work yet)
+
+option.DISABLE_HAND_BLUR=Hand Blur
+value.DISABLE_HAND_BLUR.0=Enabled
+value.DISABLE_HAND_BLUR.1=Disabled
+
+option.BLUR_MAX_VELOCITY=Max Velocity
+
+option.MOTION_BLUR_SAMPLES=Samples
+
+option.MOTION_BLUR_INTENSITY=Intensity
