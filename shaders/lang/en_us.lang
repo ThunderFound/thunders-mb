@@ -1,17 +1,21 @@
 option.INFO=Thunder's Motion Blur
-value.INFO.0=v1.0
+value.INFO.0=v1.1
+
+option.MOTION_BLUR_INTENSITY=Intensity
+
+option.MOTION_BLUR_SAMPLES=Samples
+
+option.BLUR_MAX_VELOCITY=Max Velocity
+
+option.DISABLE_HAND_BLUR=Hand Blur
+value.DISABLE_HAND_BLUR.0=Enabled
+value.DISABLE_HAND_BLUR.1=Disabled
 
 option.DITHER_MODE=Dither Mode
 value.DITHER_MODE.0=Off
 value.DITHER_MODE.1=IGN
 value.DITHER_MODE.2=Blue Noise
 
-option.DISABLE_HAND_BLUR=Hand Blur
-value.DISABLE_HAND_BLUR.0=Enabled
-value.DISABLE_HAND_BLUR.1=Disabled
-
-option.BLUR_MAX_VELOCITY=Max Velocity
-
-option.MOTION_BLUR_SAMPLES=Samples
-
-option.MOTION_BLUR_INTENSITY=Intensity
+option.USE_DEPTH_DILATION=Depth Dilation
+value.USE_DEPTH_DILATION.0=Disabled
+value.USE_DEPTH_DILATION.1=Enabled

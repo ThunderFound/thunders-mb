@@ -22,6 +22,7 @@ layout(location = 0) out vec4 fragColor;
 #define BLUR_MAX_VELOCITY 0.10    // [0.00 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.10 0.11 0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.20 0.21 0.22 0.23 0.24 0.25 0.26 0.27 0.28 0.29 0.30]
 #define DISABLE_HAND_BLUR 1       // [0 1]
 #define DITHER_MODE 2             // [0 1 2]
+#define USE_DEPTH_DILATION 1      // [0 1]
 
 float ign(vec2 p) {
     return fract(52.9829189 * fract(0.06711056 * p.x + 0.00583715 * p.y));
@@ -36,7 +37,18 @@ void main() {
     float depth = texture(depthtex0, texcoord).r;
     vec3 color = texture(colortex0, texcoord).rgb;
 
-    vec4 ndc = vec4(texcoord * 2.0 - 1.0, depth * 2.0 - 1.0, 1.0);
+    float dilatedDepth = depth;
+    #if USE_DEPTH_DILATION == 1
+    ivec2 texel = ivec2(gl_FragCoord.xy);
+    for (int x = -1; x <= 1; x++) {
+        for (int y = -1; y <= 1; y++) {
+            float d = texelFetch(depthtex0, texel + ivec2(x, y), 0).r;
+            dilatedDepth = min(dilatedDepth, d);
+        }
+    }
+    #endif
+
+    vec4 ndc = vec4(texcoord * 2.0 - 1.0, dilatedDepth * 2.0 - 1.0, 1.0);
     vec4 eye = gbufferProjectionInverse * ndc;
     eye /= eye.w;
     

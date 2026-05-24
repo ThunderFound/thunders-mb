@@ -11,6 +11,7 @@ Samples - more = smoother, but slower
 Max Velocity - limits blur streak length  
 Hand Blur - whether hand should be blurred too  
 Dither Mode - dithering algorithm for debanding  
+Depth Dilation - reduces blur bleeding at edges
 
 Dither modes
 ---
