@@ -54,7 +54,8 @@ void main() {
 
     #if DISABLE_HAND_BLUR == 1
     if (depth < 0.56) {
-        velocity *= 0.05; 
+        fragColor = vec4(color, 1.0);
+        return;
     }
     #endif
 

@@ -1,6 +1,6 @@
 ![banner](https://github.com/ThunderFound/thunders-motion-blur/blob/main/images/thunders-motion-blur-banner.png?raw=true)
 # Thunder's Motion Blur
-Shader for motion blur with a lot of settings and great performance. Good for PVP.
+Lightweight and performant shader for motion blur. Looks good even at 4 samples. Great for PVP.
 
 Shader Settings
 ---
