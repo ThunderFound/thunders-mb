@@ -84,12 +84,15 @@ void main() {
             vec2 sampleCoord = clamp(texcoord + velocity * offset, 0.0, 1.0);
             vec3 sampleColor = texture(colortex0, sampleCoord).rgb;
 
-            blurColor += sampleColor * w;
+            //blurColor += sampleColor * w;
+            //weightSum += w;
+            blurColor += (sampleColor * sampleColor) * w; 
             weightSum += w;
         }
 
         if (weightSum > 0.0) {
-            color = blurColor / weightSum;
+            //color = blurColor / weightSum;
+            color = sqrt(blurColor / weightSum);
         }
     }
 
