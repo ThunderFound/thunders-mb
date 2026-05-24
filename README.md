@@ -1,6 +1,7 @@
 ![banner](https://github.com/ThunderFound/thunders-motion-blur/blob/main/images/thunders-motion-blur-banner.png?raw=true)
 # Thunder's Motion Blur
-Lightweight and performant shader for motion blur. Looks good even at 4 samples. Great for PVP.
+Lightweight and performant shader for motion blur. Looks good even at 4 samples. Great for PVP.  
+Also, please try playing with settings. You may not like the default config, maybe try turning dithering off or changing the intensity.
 
 Shader Settings
 ---
