@@ -1,5 +1,7 @@
 option.INFO=Thunder's Motion Blur
-value.INFO.0=v1.2
+value.INFO.0=v1.3
+
+screen.SAMPLING=Sampling Settings
 
 option.MOTION_BLUR_INTENSITY=Intensity
 
