@@ -19,3 +19,11 @@ value.DITHER_MODE.2=Blue Noise
 option.USE_DEPTH_DILATION=Depth Dilation
 value.USE_DEPTH_DILATION.0=Disabled
 value.USE_DEPTH_DILATION.1=Enabled
+
+option.USE_DYNAMIC_SAMPLING=Dynamic Sampling
+value.USE_DYNAMIC_SAMPLING.0=Disabled
+value.USE_DYNAMIC_SAMPLING.1=Enabled
+
+option.MIN_SAMPLES=Min Samples
+
+option.MAX_SAMPLES=Max Samples
