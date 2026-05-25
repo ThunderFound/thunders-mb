@@ -34,7 +34,7 @@ float ign(vec2 p) {
 }
 
 float blueNoise() {
-    ivec2 uv = ivec2(fract(gl_FragCoord.xy / 256.0) * 256.0);
+    ivec2 uv = ivec2(gl_FragCoord.xy) % 256;
     return texelFetch(noisetex, uv, 0).r;
 }
 
@@ -42,15 +42,20 @@ void main() {
     float depth = texture(depthtex0, texcoord).r;
     vec3 color = texture(colortex0, texcoord).rgb;
 
+    #if DISABLE_HAND_BLUR == 1
+    if (depth < 0.56) {
+        fragColor = vec4(color, 1.0);
+        return;
+    }
+    #endif
+
     float dilatedDepth = depth;
     #if USE_DEPTH_DILATION == 1
     ivec2 texel = ivec2(gl_FragCoord.xy);
-    for (int x = -1; x <= 1; x++) {
-        for (int y = -1; y <= 1; y++) {
-            float d = texelFetch(depthtex0, texel + ivec2(x, y), 0).r;
-            dilatedDepth = min(dilatedDepth, d);
-        }
-    }
+    dilatedDepth = min(dilatedDepth, texelFetch(depthtex0, texel + ivec2( 1,  0), 0).r);
+    dilatedDepth = min(dilatedDepth, texelFetch(depthtex0, texel + ivec2(-1,  0), 0).r);
+    dilatedDepth = min(dilatedDepth, texelFetch(depthtex0, texel + ivec2( 0,  1), 0).r);
+    dilatedDepth = min(dilatedDepth, texelFetch(depthtex0, texel + ivec2( 0, -1), 0).r);
     #endif
 
     vec4 ndc = vec4(texcoord * 2.0 - 1.0, dilatedDepth * 2.0 - 1.0, 1.0);
@@ -69,18 +74,14 @@ void main() {
     
     vec2 velocity = (texcoord - prevTexcoord) * MOTION_BLUR_INTENSITY;
 
-    #if DISABLE_HAND_BLUR == 1
-    if (depth < 0.56) {
-        fragColor = vec4(color, 1.0);
-        return;
-    }
-    #endif
-
-    if (length(velocity) > BLUR_MAX_VELOCITY) {
-        velocity = normalize(velocity) * BLUR_MAX_VELOCITY;
+    float velLength = length(velocity);
+    if (velLength > BLUR_MAX_VELOCITY) {
+        //velocity = normalize(velocity) * BLUR_MAX_VELOCITY;
+        velocity *= (BLUR_MAX_VELOCITY / velLength);
+        velLength = BLUR_MAX_VELOCITY;
     }
 
-    if (length(velocity) > 0.0001) {
+    if (velLength > 0.0001) {
         vec3 blurColor = vec3(0.0);
         float weightSum = 0.0;
 
@@ -93,7 +94,7 @@ void main() {
 
         int numSamples;
         #if USE_DYNAMIC_SAMPLING == 1
-            float normalizedSpeed = length(velocity) / BLUR_MAX_VELOCITY;
+            float normalizedSpeed = velLength / BLUR_MAX_VELOCITY;
             numSamples = clamp(int(ceil(normalizedSpeed * float(MAX_SAMPLES))), MIN_SAMPLES, MAX_SAMPLES);
         #else
             numSamples = MOTION_BLUR_SAMPLES;
@@ -103,10 +104,14 @@ void main() {
             float t = (float(i) + jitter) / float(numSamples - 1);
             float offset = t - 0.5;
 
+            vec2 sampleCoord = clamp(texcoord + velocity * offset, 0.0, 1.0);
+
+            if (sampleCoord.x < 0.0 || sampleCoord.x > 1.0 || sampleCoord.y < 0.0 || sampleCoord.y > 1.0) {
+                continue; 
+            }
+
             float w = 1.0 - abs(offset) * 2.0;
             w = max(w, 0.0);
-
-            vec2 sampleCoord = clamp(texcoord + velocity * offset, 0.0, 1.0);
             vec3 sampleColor = texture(colortex0, sampleCoord).rgb;
 
             //blurColor += sampleColor * w;
