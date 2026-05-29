@@ -7,7 +7,7 @@ Also, please try playing with settings. You may not like the default config, so 
 
 Shader Settings
 ---
-![shader settings](https://github.com/ThunderFound/thunders-motion-blur/blob/main/images/thunders-mb-settings.png?raw=true)  
+![shader settings](https://github.com/ThunderFound/thunders-motion-blur/blob/main/images/thunders-mb-settings.jpg?raw=true)  
 Intensity - how strong blur is  
 Max Velocity - limits blur streak length  
 Hand Blur - whether hand should be blurred too  
@@ -15,12 +15,12 @@ Dither Mode - dithering algorithm for debanding (examples further down)
 Depth Dilation - reduces blur bleeding at edges  
 <br/>
 
-![sampling settings](https://github.com/ThunderFound/thunders-motion-blur/blob/main/images/thunders-mb-settings-sampling.png?raw=true)  
+![sampling settings](https://github.com/ThunderFound/thunders-motion-blur/blob/main/images/thunders-mb-settings-sampling.jpg?raw=true)  
 Samples - more = smoother, but slower  
 Dynamic Sampling - change samples value based on velocity  
 <br/>
 
-![extra settings](https://github.com/ThunderFound/thunders-motion-blur/blob/main/images/thunders-mb-settings-extra.png?raw=true)  
+![extra settings](https://github.com/ThunderFound/thunders-motion-blur/blob/main/images/thunders-mb-settings-extra.jpg?raw=true)  
 Directional Shading (examples further down)  
 <br/>
 
