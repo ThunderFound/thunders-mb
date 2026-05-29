@@ -1,5 +1,5 @@
 option.INFO=Thunder's Motion Blur
-value.INFO.0=v1.4
+value.INFO.0=v1.5
 
 screen.SAMPLING=Sampling Settings
 screen.EXTRA=Extra
@@ -30,7 +30,3 @@ value.USE_DYNAMIC_SAMPLING.1=Enabled
 option.MIN_SAMPLES=Min Samples
 
 option.MAX_SAMPLES=Max Samples
-
-option.USE_DIRECTIONAL_SHADING=Directional Shading
-value.USE_DIRECTIONAL_SHADING.0=Disabled
-value.USE_DIRECTIONAL_SHADING.1=Enabled

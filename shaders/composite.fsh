@@ -105,22 +105,15 @@ void main() {
 
             vec2 sampleCoord = clamp(texcoord + velocity * offset, 0.0, 1.0);
 
-            if (sampleCoord.x < 0.0 || sampleCoord.x > 1.0 || sampleCoord.y < 0.0 || sampleCoord.y > 1.0) {
-                continue; 
-            }
-
             float w = 1.0 - abs(offset) * 2.0;
             w = max(w, 0.0);
             vec3 sampleColor = texture(colortex0, sampleCoord).rgb;
 
-            //blurColor += sampleColor * w;
-            //weightSum += w;
             blurColor += (sampleColor * sampleColor) * w; 
             weightSum += w;
         }
 
         if (weightSum > 0.0) {
-            //color = blurColor / weightSum;
             color = sqrt(blurColor / weightSum);
         }
     }
