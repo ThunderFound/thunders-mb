@@ -2,7 +2,7 @@
 
 uniform sampler2D colortex0;
 uniform sampler2D depthtex0;
-uniform sampler2D noisetex;
+uniform sampler2D colortex4;
 
 uniform mat4 gbufferModelViewInverse;
 uniform mat4 gbufferProjectionInverse;
@@ -34,8 +34,8 @@ float ign(vec2 p) {
 }
 
 float blueNoise() {
-    ivec2 uv = ivec2(gl_FragCoord.xy) % 256;
-    return texelFetch(noisetex, uv, 0).r;
+    ivec2 texelCoords = ivec2(gl_FragCoord.xy) & 255;
+    return texelFetch(colortex4, texelCoords, 0).r;
 }
 
 void main() {
@@ -76,7 +76,6 @@ void main() {
 
     float velLength = length(velocity);
     if (velLength > BLUR_MAX_VELOCITY) {
-        //velocity = normalize(velocity) * BLUR_MAX_VELOCITY;
         velocity *= (BLUR_MAX_VELOCITY / velLength);
         velLength = BLUR_MAX_VELOCITY;
     }
@@ -101,7 +100,7 @@ void main() {
         #endif
 
         for (int i = 0; i < numSamples; ++i) {
-            float t = (float(i) + jitter) / float(numSamples - 1);
+            float t = (float(i) + jitter) / float(numSamples);
             float offset = t - 0.5;
 
             vec2 sampleCoord = clamp(texcoord + velocity * offset, 0.0, 1.0);
